@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-/** Represents a recurring event composed of multiple single events. A recurring event is defined by
- * either a fixed number of occurrences or an end date,
- * and repeats on specified days of the week.
+/**
+ * Represents a recurring event composed of multiple single events. A recurring event is defined by
+ * either a fixed number of occurrences or an end date, and repeats on specified days of the week.
  * Each occurrence is stored as a separate SingleEvent instance.
  */
 public class RecurringEvent extends AbstractCalendarEvent {

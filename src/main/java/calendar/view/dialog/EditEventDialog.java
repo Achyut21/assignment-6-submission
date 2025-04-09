@@ -1,11 +1,9 @@
 package calendar.view.dialog;
 
+import calendar.controller.CalendarController;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-
 import javax.swing.*;
-
-import calendar.controller.CalendarController;
 
 public class EditEventDialog  extends JDialog {
   private JTextField nameField;
@@ -15,7 +13,7 @@ public class EditEventDialog  extends JDialog {
   private JTextField newValueField;
   private JButton saveButton;
   private JButton cancelButton;
-  private CalendarController controller;
+  private final CalendarController controller;
 
   public EditEventDialog(JFrame parent, CalendarController controller) {
     super(parent, "Edit Event", true);

@@ -11,13 +11,36 @@ import java.util.Set;
 public class CalendarManager {
   private final Map<String, Calendar> calendars = new HashMap<>();
 
-  /** Creates a new calendar with the specified name and timezone. */
+  /**
+   * Adds an existing calendar to the manager. Throws an exception if a calendar with the same name
+   * already exists.
+   */
+  public void addCalendar(Calendar calendar) {
+    if (calendars.containsKey(calendar.getName())) {
+      throw new IllegalArgumentException("Calendar name must be unique.");
+    }
+    calendars.put(calendar.getName(), calendar);
+  }
+
+  /**
+   * Creates a new calendar with the specified name and timezone. This method creates a new Calendar
+   * instance.
+   */
   public void createCalendar(String name, String timezoneStr) {
     if (calendars.containsKey(name)) {
       throw new IllegalArgumentException("Calendar name must be unique.");
     }
     Calendar cal = new Calendar(name, ZoneId.of(timezoneStr));
     calendars.put(name, cal);
+  }
+
+  public Set<String> getCalendarNames() {
+    return new HashSet<>(calendars.keySet());
+  }
+
+  /** Returns the calendar with the specified name. */
+  public Calendar getCalendar(String name) {
+    return calendars.get(name);
   }
 
   /** Edits an existing calendar's property. */
@@ -38,14 +61,5 @@ public class CalendarManager {
     } else {
       throw new IllegalArgumentException("Invalid property for calendar.");
     }
-  }
-
-  public Set<String> getCalendarNames() {
-    return new HashSet<>(calendars.keySet());
-  }
-
-  /** Returns the calendar with the specified name. */
-  public Calendar getCalendar(String name) {
-    return calendars.get(name);
   }
 }

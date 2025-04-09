@@ -1,4 +1,4 @@
-package calendar.view;
+package calendar.view.ui;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -8,13 +8,13 @@ import javax.swing.JPanel;
 
 public class CalendarTopPanel extends JPanel {
 
-  private JLabel currentCalLabel;
-  private JLabel monthLabel;
-  private JButton prevButton;
-  private JButton nextButton;
+  private final JLabel currentCalLabel;
+  private final JLabel monthLabel;
+  private final JButton prevButton;
+  private final JButton nextButton;
 
-  public CalendarTopPanel(String calendarName, String formattedMonth,
-                          Runnable onPrev, Runnable onNext) {
+  public CalendarTopPanel(
+      String calendarName, String formattedMonth, Runnable onPrev, Runnable onNext) {
     setLayout(new FlowLayout());
     currentCalLabel = new JLabel("Calendar: " + calendarName);
     prevButton = new JButton("<");

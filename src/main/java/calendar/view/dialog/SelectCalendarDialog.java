@@ -1,11 +1,9 @@
 package calendar.view.dialog;
 
+import calendar.controller.CalendarController;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-
 import javax.swing.*;
-
-import calendar.controller.CalendarController;
 
 public class SelectCalendarDialog extends JDialog {
   public SelectCalendarDialog(JFrame parent, CalendarController controller) {

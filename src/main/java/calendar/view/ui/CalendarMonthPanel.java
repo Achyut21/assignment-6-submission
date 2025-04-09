@@ -1,4 +1,4 @@
-package calendar.view;
+package calendar.view.ui;
 
 import calendar.controller.CalendarController;
 import calendar.model.event.Event;
@@ -15,22 +15,18 @@ import javax.swing.UIManager;
 
 public class CalendarMonthPanel extends JPanel {
 
-  private LocalDate currentDate;
-  private CalendarController controller;
   private final Color lavender = new Color(230, 230, 250);
+  private LocalDate currentDate;
+  private final CalendarController controller;
   private DaySelectedListener daySelectedListener;
-
-  public interface DaySelectedListener {
-    void onDaySelected(LocalDate date);
-  }
-
-  public void setDaySelectedListener(DaySelectedListener listener) {
-    this.daySelectedListener = listener;
-  }
 
   public CalendarMonthPanel(CalendarController controller) {
     super(new GridLayout(0, 7));
     this.controller = controller;
+  }
+
+  public void setDaySelectedListener(DaySelectedListener listener) {
+    this.daySelectedListener = listener;
   }
 
   public void drawMonth(LocalDate currentDate) {
@@ -66,14 +62,19 @@ public class CalendarMonthPanel extends JPanel {
       } catch (Exception ex) {
         dayButton.setBackground(lavender);
       }
-      dayButton.addActionListener((ActionEvent e) -> {
-        if (daySelectedListener != null) {
-          daySelectedListener.onDaySelected(date);
-        }
-      });
+      dayButton.addActionListener(
+          (ActionEvent e) -> {
+            if (daySelectedListener != null) {
+              daySelectedListener.onDaySelected(date);
+            }
+          });
       add(dayButton);
     }
     revalidate();
     repaint();
+  }
+
+  public interface DaySelectedListener {
+    void onDaySelected(LocalDate date);
   }
 }

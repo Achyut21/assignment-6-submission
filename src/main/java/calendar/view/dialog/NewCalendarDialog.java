@@ -12,7 +12,7 @@ public class NewCalendarDialog extends JDialog {
   private JTextField timezoneField;
   private JButton createButton;
   private JButton cancelButton;
-  private CalendarController controller;
+  private final CalendarController controller;
 
   public NewCalendarDialog(JFrame parent, CalendarController controller) {
     super(parent, "New Calendar", true);
@@ -38,21 +38,24 @@ public class NewCalendarDialog extends JDialog {
     pack();
     setLocationRelativeTo(getParent());
 
-    createButton.addActionListener((ActionEvent e) -> {
-      String name = nameField.getText().trim();
-      String timezone = timezoneField.getText().trim();
-      if (name.isEmpty() || timezone.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Please fill all fields.", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-      }
-      try {
-        controller.createCalendar(name, timezone);
-        JOptionPane.showMessageDialog(this, "Calendar created: " + name);
-        dispose();
-      } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-      }
-    });
+    createButton.addActionListener(
+        (ActionEvent e) -> {
+          String name = nameField.getText().trim();
+          String timezone = timezoneField.getText().trim();
+          if (name.isEmpty() || timezone.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                this, "Please fill all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+          }
+          try {
+            controller.createCalendar(name, timezone);
+            JOptionPane.showMessageDialog(this, "Calendar created: " + name);
+            dispose();
+          } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+          }
+        });
 
     cancelButton.addActionListener((ActionEvent e) -> dispose());
   }

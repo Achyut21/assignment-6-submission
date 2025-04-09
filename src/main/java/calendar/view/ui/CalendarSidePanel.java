@@ -1,4 +1,4 @@
-package calendar.view;
+package calendar.view.ui;
 
 import calendar.controller.CalendarController;
 import calendar.view.dialog.CreateEventDialog;
@@ -17,8 +17,8 @@ public class CalendarSidePanel extends JPanel {
 
   private JTextArea eventTextArea;
   private JButton addEventButton;
-  private CalendarGUI parent;
-  private CalendarController controller;
+  private final CalendarGUI parent;
+  private final CalendarController controller;
 
   public CalendarSidePanel(CalendarGUI parent, CalendarController controller) {
     this.parent = parent;
@@ -34,11 +34,12 @@ public class CalendarSidePanel extends JPanel {
     eventScrollPane.setPreferredSize(new Dimension(300, 600));
 
     addEventButton = new JButton("Add Event");
-    addEventButton.addActionListener((ActionEvent e) -> {
-      LocalDate dateForEvent = parent.getCurrentSelectedDateOrDefault();
-      new CreateEventDialog(parent, controller, dateForEvent).setVisible(true);
-      parent.refreshView();
-    });
+    addEventButton.addActionListener(
+        (ActionEvent e) -> {
+          LocalDate dateForEvent = parent.getCurrentSelectedDateOrDefault();
+          new CreateEventDialog(parent, controller, dateForEvent).setVisible(true);
+          parent.refreshView();
+        });
 
     JPanel buttonPanel = new JPanel();
     buttonPanel.add(addEventButton);

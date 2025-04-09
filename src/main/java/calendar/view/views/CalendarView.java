@@ -14,8 +14,11 @@ public class CalendarView {
     StringBuilder sb = new StringBuilder();
     sb.append("Events on ").append(date).append(":\n");
     for (Event e : events) {
-      boolean isAllDay = (e.getStart().getHour() == 0 && e.getStart().getMinute() == 0 &&
-          e.getEnd().getHour() == 23 && e.getEnd().getMinute() == 59);
+      boolean isAllDay =
+          (e.getStart().getHour() == 0
+              && e.getStart().getMinute() == 0
+              && e.getEnd().getHour() == 23
+              && e.getEnd().getMinute() == 59);
       sb.append(" - ").append(e.getName());
       if (isAllDay) {
         sb.append(" All Day Event ");

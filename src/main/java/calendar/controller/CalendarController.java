@@ -2,12 +2,13 @@ package calendar.controller;
 
 import calendar.controller.export.CSVCalendarExporter;
 import calendar.controller.export.CalendarExporter;
+import calendar.controller.importer.CSVCalendarImporter;
+import calendar.controller.importer.CalendarImporter;
 import calendar.model.Calendar;
 import calendar.model.event.Event;
 import calendar.model.event.RecurringEvent;
 import calendar.model.event.SingleEvent;
 import calendar.view.views.CalendarView;
-
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,18 +26,18 @@ public class CalendarController {
   private final DateTimeFormatter dtFormatter;
   private final DateTimeFormatter dateFormatter;
   private final CalendarExporter exporter;
+  private final CalendarImporter importer;
   private Calendar activeCalendar;
 
   /** Constructs a CalendarController with the specified default calendar. */
   public CalendarController(Calendar defaultCalendar) {
     this.activeCalendar = defaultCalendar;
     calendarManager = new CalendarManager();
-    // Add the default calendar to the manager.
-    calendarManager.createCalendar(
-        defaultCalendar.getName(), defaultCalendar.getTimezone().getId());
+    calendarManager.addCalendar(defaultCalendar);
     dtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
     dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     exporter = new CSVCalendarExporter();
+    importer = new CSVCalendarImporter();
   }
 
   /** Creates a new calendar with the given name and timezone. */
@@ -332,6 +333,14 @@ public class CalendarController {
   /** Exports the active calendar to a file using the configured exporter. */
   public String exportCalendar(String fileName) throws Exception {
     return exporter.export(activeCalendar, fileName);
+  }
+
+  /**
+   * Imports events from the CSV file into the currently active calendar.
+   * Returns the number of events imported.
+   */
+  public int importCalendar(String fileName) throws Exception {
+    return importer.importCalendar(activeCalendar, fileName);
   }
 
   /** Returns a list of events on the specified date.*/

@@ -2,14 +2,8 @@ package calendar.view.ui;
 
 import calendar.controller.CalendarController;
 import calendar.model.event.Event;
-import calendar.view.CalendarMonthPanel;
-import calendar.view.CalendarSidePanel;
-import calendar.view.CalendarTopPanel;
 import calendar.view.views.CalendarView;
-
 import java.awt.BorderLayout;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -19,13 +13,13 @@ import javax.swing.JOptionPane;
 
 public class CalendarGUI extends JFrame {
 
-  private CalendarController controller;
+  private final DateTimeFormatter monthFormatter = DateTimeFormatter.ofPattern("MMMM yyyy");
+  private final CalendarController controller;
   private LocalDate currentDate;
   private LocalDate currentSelectedDate = null;
   private CalendarTopPanel topPanel;
   private CalendarMonthPanel monthPanel;
   private CalendarSidePanel sidePanel;
-  private final DateTimeFormatter monthFormatter = DateTimeFormatter.ofPattern("MMMM yyyy");
 
   public CalendarGUI(CalendarController controller) {
     this.controller = controller;
@@ -40,7 +34,10 @@ public class CalendarGUI extends JFrame {
     setSize(1000, 700);
     setLocationRelativeTo(null);
 
-    topPanel = new CalendarTopPanel(controller.getCurrentCalendarName(), currentDate.format(monthFormatter),
+    topPanel =
+        new CalendarTopPanel(
+            controller.getCurrentCalendarName(),
+            currentDate.format(monthFormatter),
             () -> {
               currentDate = currentDate.minusMonths(1);
               topPanel.updateMonthLabel(currentDate.format(monthFormatter));
@@ -87,7 +84,8 @@ public class CalendarGUI extends JFrame {
       String eventsText = CalendarView.formatEventsOn(date.toString(), events);
       sidePanel.updateEvents(eventsText);
     } catch (Exception ex) {
-      JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+      JOptionPane.showMessageDialog(
+          this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
   }
 
@@ -99,42 +97,25 @@ public class CalendarGUI extends JFrame {
         String result = controller.exportCalendar(path);
         JOptionPane.showMessageDialog(this, "Calendar exported to CSV at:\n" + result);
       } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Error exporting: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(
+            this, "Error exporting: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
       }
     }
   }
 
-  public void importCalendar() {
+  void importCalendar() {
     JFileChooser chooser = new JFileChooser();
     if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
       String path = chooser.getSelectedFile().getAbsolutePath();
-      try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
-        String line;
-        boolean firstLine = true;
-        while ((line = reader.readLine()) != null) {
-          if (firstLine) {
-            firstLine = false;
-            continue; // Skip header
-          }
-          String[] tokens = line.split(",");
-          if (tokens.length < 9) continue;
-          String subject = tokens[0].replace("\"", "");
-          String startDate = tokens[1].replace("\"", "");
-          String startTime = tokens[2].replace("\"", "");
-          String endDate = tokens[3].replace("\"", "");
-          String endTime = tokens[4].replace("\"", "");
-          String allDay = tokens[5].replace("\"", "");
-          String description = tokens[6].replace("\"", "");
-          String location = tokens[7].replace("\"", "");
-          String startDateTime = startDate + "T" + (allDay.equalsIgnoreCase("True") ? "00:00" : startTime);
-          String endDateTime = endDate + "T" + (allDay.equalsIgnoreCase("True") ? "23:59" : endTime);
-          controller.createSingleEvent(subject, startDateTime, endDateTime, description, location, true, false);
-          refreshView();
-        }
-        JOptionPane.showMessageDialog(this, "Import successful.");
+      try {
+        // Call controller's import method.
+        int count = controller.importCalendar(path);
+        JOptionPane.showMessageDialog(this, "Import successful. " + count + " events imported.");
+        // Redraw the month panel since events have changed.
         monthPanel.drawMonth(currentDate);
       } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Error importing: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(
+            this, "Error importing: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
       }
     }
   }

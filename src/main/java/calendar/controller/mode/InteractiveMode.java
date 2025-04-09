@@ -16,7 +16,7 @@ public class InteractiveMode implements Mode {
   /** Constructor for the interactive mode. */
   public InteractiveMode(CalendarController controller) {
     this.controller = controller;
-    this.uiHandler =  new ConsoleUIHandler();
+    this.uiHandler = new ConsoleUIHandler();
   }
 
   /** Method for executing the program in interactive mode. */

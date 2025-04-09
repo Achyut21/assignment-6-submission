@@ -8,7 +8,7 @@ import javax.swing.*;
 
 import calendar.controller.CalendarController;
 
-public class CreateEventDialog  extends JDialog {
+public class CreateEventDialog extends JDialog {
   private JTextField nameField;
   private JTextField dateField;
   private JTextField startTimeField;
@@ -21,8 +21,8 @@ public class CreateEventDialog  extends JDialog {
   private JTextField untilField;
   private JButton createButton;
   private JButton cancelButton;
-  private CalendarController controller;
-  private LocalDate defaultDate;
+  private final CalendarController controller;
+  private final LocalDate defaultDate;
 
   public CreateEventDialog(JFrame parent, CalendarController controller, LocalDate defaultDate) {
     super(parent, "Create Event", true);
@@ -76,43 +76,69 @@ public class CreateEventDialog  extends JDialog {
     pack();
     setLocationRelativeTo(getParent());
 
-    createButton.addActionListener((ActionEvent e) -> {
-      String name = nameField.getText().trim();
-      String dateStr = dateField.getText().trim();
-      String startTime = startTimeField.getText().trim();
-      String endTime = endTimeField.getText().trim();
-      String description = descriptionField.getText().trim();
-      String location = locationField.getText().trim();
-      boolean isRecurring = recurringCheck.isSelected();
-      try {
-        String startDateTime = dateStr + "T" + startTime;
-        String endDateTime = dateStr + "T" + endTime;
-        if (!isRecurring) {
-          controller.createSingleEvent(name, startDateTime, endDateTime, description, location, true, false);
-          JOptionPane.showMessageDialog(this, "Event created successfully!");
-        } else {
-          String weekdays = weekdaysField.getText().trim();
-          String occStr = occurrencesField.getText().trim();
-          String untilStr = untilField.getText().trim();
-          if (!occStr.isEmpty()) {
-            int occurrences = Integer.parseInt(occStr);
-            controller.createRecurringEventOccurrences(name, startDateTime, endDateTime, description, location, true, weekdays, occurrences, false);
-            JOptionPane.showMessageDialog(this, "Recurring event created with " + occurrences + " occurrences.");
-          } else if (!untilStr.isEmpty()) {
-            controller.createRecurringEventUntil(name, startDateTime, endDateTime, description, location, true, weekdays, untilStr, false);
-            JOptionPane.showMessageDialog(this, "Recurring event created until " + untilStr + ".");
-          } else {
-            JOptionPane.showMessageDialog(this, "Please specify either occurrences or an until date for recurring event.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
+    createButton.addActionListener(
+        (ActionEvent e) -> {
+          String name = nameField.getText().trim();
+          String dateStr = dateField.getText().trim();
+          String startTime = startTimeField.getText().trim();
+          String endTime = endTimeField.getText().trim();
+          String description = descriptionField.getText().trim();
+          String location = locationField.getText().trim();
+          boolean isRecurring = recurringCheck.isSelected();
+          try {
+            String startDateTime = dateStr + "T" + startTime;
+            String endDateTime = dateStr + "T" + endTime;
+            if (!isRecurring) {
+              controller.createSingleEvent(
+                  name, startDateTime, endDateTime, description, location, true, false);
+              JOptionPane.showMessageDialog(this, "Event created successfully!");
+            } else {
+              String weekdays = weekdaysField.getText().trim();
+              String occStr = occurrencesField.getText().trim();
+              String untilStr = untilField.getText().trim();
+              if (!occStr.isEmpty()) {
+                int occurrences = Integer.parseInt(occStr);
+                controller.createRecurringEventOccurrences(
+                    name,
+                    startDateTime,
+                    endDateTime,
+                    description,
+                    location,
+                    true,
+                    weekdays,
+                    occurrences,
+                    false);
+                JOptionPane.showMessageDialog(
+                    this, "Recurring event created with " + occurrences + " occurrences.");
+              } else if (!untilStr.isEmpty()) {
+                controller.createRecurringEventUntil(
+                    name,
+                    startDateTime,
+                    endDateTime,
+                    description,
+                    location,
+                    true,
+                    weekdays,
+                    untilStr,
+                    false);
+                JOptionPane.showMessageDialog(
+                    this, "Recurring event created until " + untilStr + ".");
+              } else {
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Please specify either occurrences or an until date for recurring event.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+              }
+            }
+            dispose();
+          } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
           }
-        }
-        dispose();
-      } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-      }
-    });
+        });
 
     cancelButton.addActionListener((ActionEvent e) -> dispose());
   }
 }
-

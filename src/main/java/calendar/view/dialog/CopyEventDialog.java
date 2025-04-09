@@ -1,16 +1,16 @@
 package calendar.view.dialog;
 
+import calendar.controller.CalendarController;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
-import calendar.controller.CalendarController;
 
 public class CopyEventDialog extends JDialog {
   private JTabbedPane tabbedPane;
   private JPanel singlePanel;
   private JPanel onDatePanel;
   private JPanel betweenPanel;
-  private CalendarController controller;
+  private final CalendarController controller;
 
   public CopyEventDialog(JFrame parent, CalendarController controller) {
     super(parent, "Copy Event", true);
