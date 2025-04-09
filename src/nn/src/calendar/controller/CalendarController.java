@@ -336,31 +336,27 @@ public class CalendarController {
   }
 
   /**
-   * Imports events from the CSV file into the currently active calendar.
-   * Returns the number of events imported.
+   * Imports events from the CSV file into the currently active calendar. Returns the number of
+   * events imported.
    */
   public int importCalendar(String fileName) throws Exception {
     return importer.importCalendar(activeCalendar, fileName);
   }
 
-  /** Returns a list of events on the specified date.*/
+  /** Returns a list of events on the specified date. */
   public List<Event> getEventsOn(String dateStr) {
     LocalDate date = LocalDate.parse(dateStr, dateFormatter);
     return activeCalendar.getEventsOn(date);
   }
 
-  /**
-   * Returns a list of events between the specified date-times.
-   */
+  /** Returns a list of events between the specified date-times. */
   public List<Event> getEventsBetween(String startStr, String endStr) {
     LocalDateTime start = LocalDateTime.parse(startStr, dtFormatter);
     LocalDateTime end = LocalDateTime.parse(endStr, dtFormatter);
     return activeCalendar.getEventsBetween(start, end);
   }
 
-  /**
-   * Returns the busy status for the specified date-time.
-   */
+  /** Returns the busy status for the specified date-time. */
   public String getBusyStatus(String dateTimeStr) {
     boolean busy = isBusy(dateTimeStr);
     return CalendarView.formatBusyStatus(dateTimeStr, busy);

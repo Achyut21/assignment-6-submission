@@ -14,13 +14,12 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 
 /**
- * A panel that displays the days of the current month in a grid.
- * Days that have events are colored in lavender.
+ * A panel that displays the days of the current month in a grid. Days that have events are colored
+ * in lavender.
  */
 public class CalendarMonthPanel extends JPanel {
 
   private final Color lavender = new Color(230, 230, 250);
-  private LocalDate currentDate;
   private final CalendarController controller;
   private DaySelectedListener daySelectedListener;
 
@@ -49,7 +48,6 @@ public class CalendarMonthPanel extends JPanel {
    * @param currentDate the date representing the current month to display
    */
   public void drawMonth(LocalDate currentDate) {
-    this.currentDate = currentDate;
     removeAll();
 
     // Create day-of-week headers.
@@ -84,20 +82,19 @@ public class CalendarMonthPanel extends JPanel {
       } catch (Exception ex) {
         dayButton.setBackground(lavender);
       }
-      dayButton.addActionListener((ActionEvent e) -> {
-        if (daySelectedListener != null) {
-          daySelectedListener.onDaySelected(date);
-        }
-      });
+      dayButton.addActionListener(
+          (ActionEvent e) -> {
+            if (daySelectedListener != null) {
+              daySelectedListener.onDaySelected(date);
+            }
+          });
       add(dayButton);
     }
     revalidate();
     repaint();
   }
 
-  /**
-   * Listener interface for when a day is selected.
-   */
+  /** Listener interface for when a day is selected. */
   public interface DaySelectedListener {
     /**
      * Called when a day is selected from the month view.

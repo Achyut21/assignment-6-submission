@@ -11,6 +11,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+/**
+ * A graphical user interface for the Calendar Application.
+ */
 public class CalendarGUI extends JFrame {
 
   private final DateTimeFormatter monthFormatter = DateTimeFormatter.ofPattern("MMMM yyyy");
@@ -21,6 +24,11 @@ public class CalendarGUI extends JFrame {
   private CalendarMonthPanel monthPanel;
   private CalendarSidePanel sidePanel;
 
+  /**
+   * Constructs a new CalendarGUI with the specified controller.
+   *
+   * @param controller the CalendarController used for calendar operations
+   */
   public CalendarGUI(CalendarController controller) {
     this.controller = controller;
     this.currentDate = LocalDate.now();
@@ -28,6 +36,9 @@ public class CalendarGUI extends JFrame {
     this.setVisible(true);
   }
 
+  /**
+   * Initializes the user interface components.
+   */
   private void initUI() {
     setTitle("Calendar Application - GUI");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,10 +76,18 @@ public class CalendarGUI extends JFrame {
     monthPanel.drawMonth(currentDate);
   }
 
+  /**
+   * Returns the selected date if available otherwise returns the current date.
+   *
+   * @return the currently selected date or current date as default
+   */
   public LocalDate getCurrentSelectedDateOrDefault() {
     return (currentSelectedDate != null) ? currentSelectedDate : currentDate;
   }
 
+  /**
+   * Refreshes the view by redrawing the month panel and updating event information.
+   */
   public void refreshView() {
     monthPanel.drawMonth(currentDate);
     if (currentSelectedDate != null) {
@@ -77,6 +96,11 @@ public class CalendarGUI extends JFrame {
     topPanel.updateCalendarName(controller.getCurrentCalendarName());
   }
 
+  /**
+   * Displays the events for the specified day by updating the side panel.
+   *
+   * @param date the date for which to display events
+   */
   private void displayEventsForDay(LocalDate date) {
     currentSelectedDate = date;
     try {
@@ -89,6 +113,9 @@ public class CalendarGUI extends JFrame {
     }
   }
 
+  /**
+   * Exports the current calendar to a CSV file.
+   */
   public void exportCalendar() {
     JFileChooser chooser = new JFileChooser();
     if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
@@ -103,6 +130,9 @@ public class CalendarGUI extends JFrame {
     }
   }
 
+  /**
+   * Imports events from a CSV file into the current calendar using the controller.
+   */
   void importCalendar() {
     JFileChooser chooser = new JFileChooser();
     if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {

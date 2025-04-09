@@ -4,9 +4,7 @@ import calendar.model.event.Event;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-/**
- * Provides static methods for formatting calendar events for display.
- */
+/** Provides static methods for formatting calendar events for display. */
 public class CalendarView {
   private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
@@ -25,8 +23,10 @@ public class CalendarView {
     sb.append("Events on ").append(date).append(":\n");
     for (Event e : events) {
       boolean isAllDay =
-          (e.getStart().getHour() == 0 && e.getStart().getMinute() == 0 &&
-              e.getEnd().getHour() == 23 && e.getEnd().getMinute() == 59);
+          (e.getStart().getHour() == 0
+              && e.getStart().getMinute() == 0
+              && e.getEnd().getHour() == 23
+              && e.getEnd().getMinute() == 59);
       sb.append(" - ").append(e.getName());
       if (isAllDay) {
         sb.append(" All Day Event ");
@@ -37,7 +37,8 @@ public class CalendarView {
             .append(timeFormatter.format(e.getEnd()))
             .append(")");
       }
-      if (e.getLocation() != null && !e.getLocation().isEmpty()) {
+      if (e.getLocation() != null
+          && !e.getLocation().isEmpty()) {
         sb.append(" at ").append(e.getLocation());
       }
       sb.append("\n");

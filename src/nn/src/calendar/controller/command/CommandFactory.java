@@ -35,10 +35,9 @@ public class CommandFactory {
         return new ExportCommand(tokens, controller);
       case "show":
         return new ShowCommand(tokens, controller);
-      default:
-        {
+      default: {
           throw new InvalidCommandException(commandType);
-        }
+      }
     }
   }
 }

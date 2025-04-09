@@ -7,15 +7,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * A top panel for the calendar GUI that displays the current calendar name and month,
- * and provides navigation buttons.
+ * A top panel for the calendar GUI that displays the current calendar name and month, and provides
+ * navigation buttons.
  */
 public class CalendarTopPanel extends JPanel {
 
   private final JLabel currentCalLabel;
   private final JLabel monthLabel;
-  private final JButton prevButton;
-  private final JButton nextButton;
 
   /**
    * Constructs a CalendarTopPanel.
@@ -29,8 +27,8 @@ public class CalendarTopPanel extends JPanel {
       String calendarName, String formattedMonth, Runnable onPrev, Runnable onNext) {
     setLayout(new FlowLayout());
     currentCalLabel = new JLabel("Calendar: " + calendarName);
-    prevButton = new JButton("<");
-    nextButton = new JButton(">");
+    JButton prevButton = new JButton("<");
+    JButton nextButton = new JButton(">");
     monthLabel = new JLabel(formattedMonth);
 
     add(currentCalLabel);

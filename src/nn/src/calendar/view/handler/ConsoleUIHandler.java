@@ -2,15 +2,11 @@ package calendar.view.handler;
 
 import java.util.Scanner;
 
-/**
- * Console-based implementation of the UIHandler interface.
- */
+/** Console-based implementation of the UIHandler interface. */
 public class ConsoleUIHandler implements UIHandler {
   private final Scanner scanner;
 
-  /**
-   * Constructs a new ConsoleUIHandler, initializing the scanner for console input.
-   */
+  /** Constructs a new ConsoleUIHandler, initializing the scanner for console input. */
   public ConsoleUIHandler() {
     scanner = new Scanner(System.in);
   }

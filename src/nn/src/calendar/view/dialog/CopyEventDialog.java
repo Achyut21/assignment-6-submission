@@ -1,18 +1,19 @@
 package calendar.view.dialog;
 
 import calendar.controller.CalendarController;
-import java.awt.*;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 
-/**
- * A dialog that provides functionality for copying events.
- */
+/** A dialog that provides functionality for copying events. */
 public class CopyEventDialog extends JDialog {
-  private JTabbedPane tabbedPane;
-  private JPanel singlePanel;
-  private JPanel onDatePanel;
-  private JPanel betweenPanel;
   private final CalendarController controller;
 
   /**
@@ -27,22 +28,20 @@ public class CopyEventDialog extends JDialog {
     initComponents();
   }
 
-  /**
-   * Initializes the dialog components and layout.
-   */
+  /** Initializes the dialog components and layout. */
   private void initComponents() {
-    tabbedPane = new JTabbedPane();
+    JTabbedPane tabbedPane = new JTabbedPane();
 
     // Tab 1: Single Event
-    singlePanel = createSingleEventPanel();
+    JPanel singlePanel = createSingleEventPanel();
     tabbedPane.addTab("Single Event", singlePanel);
 
     // Tab 2: Events On a Specific Date
-    onDatePanel = createEventsOnPanel();
+    JPanel onDatePanel = createEventsOnPanel();
     tabbedPane.addTab("Events On Date", onDatePanel);
 
     // Tab 3: Events Between Two Dates
-    betweenPanel = createEventsBetweenPanel();
+    JPanel betweenPanel = createEventsBetweenPanel();
     tabbedPane.addTab("Events Between Dates", betweenPanel);
 
     add(tabbedPane);
@@ -75,24 +74,29 @@ public class CopyEventDialog extends JDialog {
     panel.add(copyButton);
     panel.add(cancelButton);
 
-    copyButton.addActionListener((ActionEvent e) -> {
-      String name = nameField.getText().trim();
-      String sourceDT = sourceDateTimeField.getText().trim();
-      String targetCal = targetCalField.getText().trim();
-      String targetDT = targetDateTimeField.getText().trim();
-      if (name.isEmpty() || sourceDT.isEmpty() || targetCal.isEmpty() || targetDT.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Please fill all fields.", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-      }
-      try {
-        controller.copyEvent(name, sourceDT, targetCal, targetDT);
-        JOptionPane.showMessageDialog(this, "Single event copied successfully!");
-        dispose();
-      } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Error copying single event: " + ex.getMessage(),
-            "Error", JOptionPane.ERROR_MESSAGE);
-      }
-    });
+    copyButton.addActionListener(
+        (ActionEvent e) -> {
+          String name = nameField.getText().trim();
+          String sourceDT = sourceDateTimeField.getText().trim();
+          String targetCal = targetCalField.getText().trim();
+          String targetDT = targetDateTimeField.getText().trim();
+          if (name.isEmpty() || sourceDT.isEmpty() || targetCal.isEmpty() || targetDT.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                this, "Please fill all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+          }
+          try {
+            controller.copyEvent(name, sourceDT, targetCal, targetDT);
+            JOptionPane.showMessageDialog(this, "Single event copied successfully!");
+            dispose();
+          } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Error copying single event: " + ex.getMessage(),
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+          }
+        });
     cancelButton.addActionListener((ActionEvent e) -> dispose());
     return panel;
   }
@@ -119,23 +123,28 @@ public class CopyEventDialog extends JDialog {
     panel.add(copyButton);
     panel.add(cancelButton);
 
-    copyButton.addActionListener((ActionEvent e) -> {
-      String dateStr = dateField.getText().trim();
-      String targetCal = targetCalField.getText().trim();
-      String targetDT = targetDateTimeField.getText().trim();
-      if (dateStr.isEmpty() || targetCal.isEmpty() || targetDT.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Please fill all fields.", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-      }
-      try {
-        controller.copyEventsOn(dateStr, targetCal, targetDT);
-        JOptionPane.showMessageDialog(this, "Events on date copied successfully!");
-        dispose();
-      } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Error copying events on date: " + ex.getMessage(),
-            "Error", JOptionPane.ERROR_MESSAGE);
-      }
-    });
+    copyButton.addActionListener(
+        (ActionEvent e) -> {
+          String dateStr = dateField.getText().trim();
+          String targetCal = targetCalField.getText().trim();
+          String targetDT = targetDateTimeField.getText().trim();
+          if (dateStr.isEmpty() || targetCal.isEmpty() || targetDT.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                this, "Please fill all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+          }
+          try {
+            controller.copyEventsOn(dateStr, targetCal, targetDT);
+            JOptionPane.showMessageDialog(this, "Events on date copied successfully!");
+            dispose();
+          } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Error copying events on date: " + ex.getMessage(),
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+          }
+        });
     cancelButton.addActionListener((ActionEvent e) -> dispose());
     return panel;
   }
@@ -165,24 +174,32 @@ public class CopyEventDialog extends JDialog {
     panel.add(copyButton);
     panel.add(cancelButton);
 
-    copyButton.addActionListener((ActionEvent e) -> {
-      String startDateStr = startDateField.getText().trim();
-      String endDateStr = endDateField.getText().trim();
-      String targetCal = targetCalField.getText().trim();
-      String targetDateStr = targetDateField.getText().trim();
-      if (startDateStr.isEmpty() || endDateStr.isEmpty() || targetCal.isEmpty() || targetDateStr.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Please fill all fields.", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-      }
-      try {
-        controller.copyEventsBetween(startDateStr, endDateStr, targetCal, targetDateStr);
-        JOptionPane.showMessageDialog(this, "Events between dates copied successfully!");
-        dispose();
-      } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Error copying events between dates: " + ex.getMessage(),
-            "Error", JOptionPane.ERROR_MESSAGE);
-      }
-    });
+    copyButton.addActionListener(
+        (ActionEvent e) -> {
+          String startDateStr = startDateField.getText().trim();
+          String endDateStr = endDateField.getText().trim();
+          String targetCal = targetCalField.getText().trim();
+          String targetDateStr = targetDateField.getText().trim();
+          if (startDateStr.isEmpty()
+              || endDateStr.isEmpty()
+              || targetCal.isEmpty()
+              || targetDateStr.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                this, "Please fill all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+          }
+          try {
+            controller.copyEventsBetween(startDateStr, endDateStr, targetCal, targetDateStr);
+            JOptionPane.showMessageDialog(this, "Events between dates copied successfully!");
+            dispose();
+          } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Error copying events between dates: " + ex.getMessage(),
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+          }
+        });
     cancelButton.addActionListener((ActionEvent e) -> dispose());
     return panel;
   }

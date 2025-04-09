@@ -2,10 +2,10 @@ package calendar.controller.command;
 
 import calendar.controller.CalendarController;
 import calendar.model.event.Event;
-import calendar.view.views.CalendarView;
 import calendar.view.exceptions.InvalidCommandException;
 import calendar.view.exceptions.InvalidTokenException;
 import calendar.view.exceptions.MissingParameterException;
+import calendar.view.views.CalendarView;
 import java.util.List;
 
 /** Concrete implementation of the print command. */

@@ -61,20 +61,23 @@ public class CalendarMenuBar extends JMenuBar {
     exportItem.addActionListener(e -> parent.exportCalendar());
     importItem.addActionListener(e -> parent.importCalendar());
 
-    newCalItem.addActionListener(e -> {
-      new NewCalendarDialog(parent, controller).setVisible(true);
-      parent.refreshView();
-    });
-    selectCalItem.addActionListener(e -> {
-      new SelectCalendarDialog(parent, controller).setVisible(true);
-      parent.refreshView();
-    });
+    newCalItem.addActionListener(
+        e -> {
+          new NewCalendarDialog(parent, controller).setVisible(true);
+          parent.refreshView();
+        });
+    selectCalItem.addActionListener(
+        e -> {
+          new SelectCalendarDialog(parent, controller).setVisible(true);
+          parent.refreshView();
+        });
     editCalItem.addActionListener(e -> new EditCalendarDialog(parent, controller).setVisible(true));
-    createEventItem.addActionListener(e -> {
-      LocalDate dateForEvent = parent.getCurrentSelectedDateOrDefault();
-      new CreateEventDialog(parent, controller, dateForEvent).setVisible(true);
-      parent.refreshView();
-    });
+    createEventItem.addActionListener(
+        e -> {
+          LocalDate dateForEvent = parent.getCurrentSelectedDateOrDefault();
+          new CreateEventDialog(parent, controller, dateForEvent).setVisible(true);
+          parent.refreshView();
+        });
     editEventItem.addActionListener(e -> new EditEventDialog(parent, controller).setVisible(true));
     copyEventItem.addActionListener(e -> new CopyEventDialog(parent, controller).setVisible(true));
   }

@@ -1,18 +1,20 @@
 package calendar.view.dialog;
 
 import calendar.controller.CalendarController;
-import java.awt.*;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
-/**
- * A dialog for editing the current calendar's timezone.
- */
+/** A dialog for editing the current calendar's timezone. */
 public class EditCalendarDialog extends JDialog {
-  private JTextField timezoneField;
-  private JButton saveButton;
-  private JButton cancelButton;
   private final CalendarController controller;
+  private JTextField timezoneField;
 
   /**
    * Constructs the EditCalendarDialog.
@@ -26,13 +28,11 @@ public class EditCalendarDialog extends JDialog {
     initComponents();
   }
 
-  /**
-   * Initializes the components and layout for the dialog.
-   */
+  /** Initializes the components and layout for the dialog. */
   private void initComponents() {
     timezoneField = new JTextField(20);
-    saveButton = new JButton("Save");
-    cancelButton = new JButton("Cancel");
+    JButton saveButton = new JButton("Save");
+    JButton cancelButton = new JButton("Cancel");
 
     JPanel panel = new JPanel(new GridLayout(2, 2, 5, 5));
     panel.add(new JLabel("New Timezone:"));
@@ -43,26 +43,30 @@ public class EditCalendarDialog extends JDialog {
     pack();
     setLocationRelativeTo(getParent());
 
-    saveButton.addActionListener((ActionEvent e) -> {
-      String newTimezone = timezoneField.getText().trim();
-      if (newTimezone.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Please enter a timezone.", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-      }
+    saveButton.addActionListener(
+        (ActionEvent e) -> {
+          String newTimezone = timezoneField.getText().trim();
+          if (newTimezone.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                this, "Please enter a timezone.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+          }
 
-      String currentCalName = JOptionPane.showInputDialog(this, "Enter current calendar name:");
-      if (currentCalName == null || currentCalName.trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Calendar name required.", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-      }
-      try {
-        controller.editCalendar(currentCalName, "timezone", newTimezone);
-        JOptionPane.showMessageDialog(this, "Calendar timezone updated to: " + newTimezone);
-        dispose();
-      } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-      }
-    });
+          String currentCalName = JOptionPane.showInputDialog(this, "Enter current calendar name:");
+          if (currentCalName == null || currentCalName.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(
+                this, "Calendar name required.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+          }
+          try {
+            controller.editCalendar(currentCalName, "timezone", newTimezone);
+            JOptionPane.showMessageDialog(this, "Calendar timezone updated to: " + newTimezone);
+            dispose();
+          } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+          }
+        });
     cancelButton.addActionListener((ActionEvent e) -> dispose());
   }
 }

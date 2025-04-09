@@ -358,7 +358,8 @@ public class CalendarAppTest {
     controller.createSingleEvent(
         "EditTest", "2025-05-01T10:00", "2025-05-01T11:00", "", "", true, false);
     String cmd =
-        "edit event description EditTest from 2025-05-01T10:00 to 2025-05-01T11:00 with UpdatedDesc";
+        "edit event description EditTest from 2025-05-01T10:00 "
+            + "to 2025-05-01T11:00 with UpdatedDesc";
     Command command = CommandFactory.process(cmd, controller);
     String result = command.execute();
     assertTrue(result.contains("Single event edited"));

@@ -1,9 +1,16 @@
 package calendar.view.dialog;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.time.LocalDate;
-import javax.swing.*;
+import java.awt.GridLayout;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import calendar.controller.CalendarController;
 
 /**
@@ -11,6 +18,8 @@ import calendar.controller.CalendarController;
  * recurring event by specifying necessary details.
  */
 public class CreateEventDialog extends JDialog {
+  private final CalendarController controller;
+  private final LocalDate defaultDate;
   private JTextField nameField;
   private JTextField dateField;
   private JTextField startTimeField;
@@ -21,10 +30,6 @@ public class CreateEventDialog extends JDialog {
   private JTextField weekdaysField;
   private JTextField occurrencesField;
   private JTextField untilField;
-  private JButton createButton;
-  private JButton cancelButton;
-  private final CalendarController controller;
-  private final LocalDate defaultDate;
 
   /**
    * Constructs the CreateEventDialog.
@@ -40,9 +45,7 @@ public class CreateEventDialog extends JDialog {
     initComponents();
   }
 
-  /**
-   * Initializes the dialog components and layout.
-   */
+  /** Initializes the dialog components and layout. */
   private void initComponents() {
     nameField = new JTextField(20);
     dateField = new JTextField(10);
@@ -57,8 +60,8 @@ public class CreateEventDialog extends JDialog {
     weekdaysField = new JTextField(5);
     occurrencesField = new JTextField(5);
     untilField = new JTextField(15);
-    createButton = new JButton("Create");
-    cancelButton = new JButton("Cancel");
+    JButton createButton = new JButton("Create");
+    JButton cancelButton = new JButton("Cancel");
 
     JPanel panel = new JPanel(new GridLayout(0, 2, 5, 5));
     panel.add(new JLabel("Event Name:"));
