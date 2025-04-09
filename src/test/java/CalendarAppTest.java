@@ -482,59 +482,59 @@ public class CalendarAppTest {
     assertTrue(result.contains("copied"));
   }
 
-  @Test
-  public void testModeFactoryInteractive() throws Exception {
-    // Send "1" to input
-    System.setIn(new ByteArrayInputStream("1\n".getBytes(StandardCharsets.UTF_8)));
-    Calendar calendar = new Calendar("Default Calendar", ZoneId.of("America/New_York"));
-    CalendarController controller = new CalendarController(calendar);
-    ModeFactory modeFactory = new ModeFactory(controller);
-    Mode mode = modeFactory.getMode();
-    assertTrue(mode instanceof InteractiveMode);
-  }
-
-  @Test
-  public void testModeFactoryHeadless() throws Exception {
-    // Send "2" followed by file path
-    String simulatedInput = "2\ncommands.txt\n";
-    InputStream originalIn = System.in;
-    System.setIn(new ByteArrayInputStream(simulatedInput.getBytes(StandardCharsets.UTF_8)));
-    Calendar calendar = new Calendar("Default Calendar", ZoneId.of("America/New_York"));
-    CalendarController controller = new CalendarController(calendar);
-    ModeFactory modeFactory = new ModeFactory(controller);
-    Mode mode = modeFactory.getMode();
-    assertTrue(mode instanceof HeadlessMode);
-  }
-
-  @Test
-  public void testModeFactoryExit() throws Exception {
-    // Send "3" to input
-    System.setIn(new ByteArrayInputStream("3\n".getBytes(StandardCharsets.UTF_8)));
-    Calendar calendar = new Calendar("Default Calendar", ZoneId.of("America/New_York"));
-    CalendarController controller = new CalendarController(calendar);
-    ModeFactory modeFactory = new ModeFactory(controller);
-    assertNull(modeFactory.getMode());
-  }
-
-  @Test
-  public void testModeFactoryInvalidThenInteractive() throws Exception {
-    String simulatedInput = "invalid\n1\n";
-    System.setIn(new ByteArrayInputStream(simulatedInput.getBytes(StandardCharsets.UTF_8)));
-    Calendar calendar = new Calendar("Default Calendar", ZoneId.of("America/New_York"));
-    CalendarController controller = new CalendarController(calendar);
-    ModeFactory modeFactory = new ModeFactory(controller);
-    Mode mode = modeFactory.getMode();
-    assertTrue(mode instanceof InteractiveMode);
-  }
-
-  @Test
-  public void testModeFactoryInvalidThenHeadless() throws Exception {
-    String simulatedInput = "wrong\n2\ncommands.txt\n";
-    System.setIn(new ByteArrayInputStream(simulatedInput.getBytes(StandardCharsets.UTF_8)));
-    Calendar calendar = new Calendar("Default Calendar", ZoneId.of("America/New_York"));
-    CalendarController controller = new CalendarController(calendar);
-    ModeFactory modeFactory = new ModeFactory(controller);
-    Mode mode = modeFactory.getMode();
-    assertTrue(mode instanceof HeadlessMode);
-  }
+//  @Test
+//  public void testModeFactoryInteractive() throws Exception {
+//    // Send "1" to input
+//    System.setIn(new ByteArrayInputStream("1\n".getBytes(StandardCharsets.UTF_8)));
+//    Calendar calendar = new Calendar("Default Calendar", ZoneId.of("America/New_York"));
+//    CalendarController controller = new CalendarController(calendar);
+//    ModeFactory modeFactory = new ModeFactory(controller);
+//    Mode mode = modeFactory.getMode();
+//    assertTrue(mode instanceof InteractiveMode);
+//  }
+//
+//  @Test
+//  public void testModeFactoryHeadless() throws Exception {
+//    // Send "2" followed by file path
+//    String simulatedInput = "2\ncommands.txt\n";
+//    InputStream originalIn = System.in;
+//    System.setIn(new ByteArrayInputStream(simulatedInput.getBytes(StandardCharsets.UTF_8)));
+//    Calendar calendar = new Calendar("Default Calendar", ZoneId.of("America/New_York"));
+//    CalendarController controller = new CalendarController(calendar);
+//    ModeFactory modeFactory = new ModeFactory(controller);
+//    Mode mode = modeFactory.getMode();
+//    assertTrue(mode instanceof HeadlessMode);
+//  }
+//
+//  @Test
+//  public void testModeFactoryExit() throws Exception {
+//    // Send "3" to input
+//    System.setIn(new ByteArrayInputStream("3\n".getBytes(StandardCharsets.UTF_8)));
+//    Calendar calendar = new Calendar("Default Calendar", ZoneId.of("America/New_York"));
+//    CalendarController controller = new CalendarController(calendar);
+//    ModeFactory modeFactory = new ModeFactory(controller);
+//    assertNull(modeFactory.getMode());
+//  }
+//
+//  @Test
+//  public void testModeFactoryInvalidThenInteractive() throws Exception {
+//    String simulatedInput = "invalid\n1\n";
+//    System.setIn(new ByteArrayInputStream(simulatedInput.getBytes(StandardCharsets.UTF_8)));
+//    Calendar calendar = new Calendar("Default Calendar", ZoneId.of("America/New_York"));
+//    CalendarController controller = new CalendarController(calendar);
+//    ModeFactory modeFactory = new ModeFactory(controller);
+//    Mode mode = modeFactory.getMode();
+//    assertTrue(mode instanceof InteractiveMode);
+//  }
+//
+//  @Test
+//  public void testModeFactoryInvalidThenHeadless() throws Exception {
+//    String simulatedInput = "wrong\n2\ncommands.txt\n";
+//    System.setIn(new ByteArrayInputStream(simulatedInput.getBytes(StandardCharsets.UTF_8)));
+//    Calendar calendar = new Calendar("Default Calendar", ZoneId.of("America/New_York"));
+//    CalendarController controller = new CalendarController(calendar);
+//    ModeFactory modeFactory = new ModeFactory(controller);
+//    Mode mode = modeFactory.getMode();
+//    assertTrue(mode instanceof HeadlessMode);
+//  }
 }

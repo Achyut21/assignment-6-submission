@@ -47,6 +47,7 @@ public class CalendarGUI extends JFrame {
     this.controller = controller;
     this.currentDate = LocalDate.now();
     initUI();
+    this.setVisible(true);
   }
 
   private void initUI() {
@@ -223,7 +224,7 @@ public class CalendarGUI extends JFrame {
     monthPanel.repaint();
   }
 
-  public void refreshView() {
+  private void refreshView() {
     drawMonth();
     // Update the event panel for the currently selected day, if any.
     if (currentSelectedDate != null) {

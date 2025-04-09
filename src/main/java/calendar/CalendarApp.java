@@ -26,7 +26,6 @@ public class CalendarApp {
     if (args.length == 0) {
       javax.swing.SwingUtilities.invokeLater(() -> {
         CalendarGUI gui = new CalendarGUI(controller);
-        gui.setVisible(true);
       });
     }
 
