@@ -1,4 +1,4 @@
-package calendar.view;
+package calendar.view.views;
 
 import calendar.model.event.Event;
 import java.time.format.DateTimeFormatter;

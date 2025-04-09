@@ -1,12 +1,10 @@
 package calendar;
 
 import calendar.controller.CalendarController;
-import calendar.controller.mode.HeadlessMode;
-import calendar.controller.mode.InteractiveMode;
 import calendar.controller.mode.Mode;
 import calendar.controller.mode.ModeFactory;
 import calendar.model.Calendar;
-import calendar.view.CalendarGUI;
+import calendar.view.ui.CalendarGUI;
 import java.time.ZoneId;
 
 /**

@@ -1,4 +1,4 @@
-package calendar.view.ui;
+package calendar.view.handler;
 
 import java.util.Scanner;
 

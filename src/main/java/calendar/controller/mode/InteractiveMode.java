@@ -3,9 +3,9 @@ package calendar.controller.mode;
 import calendar.controller.CalendarController;
 import calendar.controller.command.Command;
 import calendar.controller.command.CommandFactory;
-import calendar.view.ui.ConsoleUIHandler;
-import calendar.view.ui.UIHandler;
-import calendar.view.ErrorView;
+import calendar.view.handler.ConsoleUIHandler;
+import calendar.view.handler.UIHandler;
+import calendar.view.views.ErrorView;
 
 /** Implementation of the Interactive mode. */
 public class InteractiveMode implements Mode {

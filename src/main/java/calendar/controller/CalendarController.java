@@ -6,6 +6,8 @@ import calendar.model.Calendar;
 import calendar.model.event.Event;
 import calendar.model.event.RecurringEvent;
 import calendar.model.event.SingleEvent;
+import calendar.view.views.CalendarView;
+
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -352,7 +354,7 @@ public class CalendarController {
    */
   public String getBusyStatus(String dateTimeStr) {
     boolean busy = isBusy(dateTimeStr);
-    return calendar.view.CalendarView.formatBusyStatus(dateTimeStr, busy);
+    return CalendarView.formatBusyStatus(dateTimeStr, busy);
   }
 
   /** Returns the busy status as a boolean for the specified date-time. */
