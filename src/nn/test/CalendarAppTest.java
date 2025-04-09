@@ -246,16 +246,22 @@ public class CalendarAppTest {
   public void testGetFormattedEventsBetweenSuccess() throws Exception {
     controller.createSingleEvent(
         "Call", "2025-04-06T15:00", "2025-04-06T16:00", "Call", "Office", true, false);
-    String output = CalendarView.formatEventsBetween("2025-04-06T14:00", "2025-04-06T17:00",
-        controller.getEventsBetween("2025-04-06T14:00", "2025-04-06T17:00"));
+    String output =
+        CalendarView.formatEventsBetween(
+            "2025-04-06T14:00",
+            "2025-04-06T17:00",
+            controller.getEventsBetween("2025-04-06T14:00", "2025-04-06T17:00"));
     assertTrue(output.contains("Call"));
   }
 
   /** Tests formatted events between two date-times when no events exist. */
   @Test
   public void testGetFormattedEventsBetweenNoEvents() throws Exception {
-    String output = CalendarView.formatEventsBetween("2025-04-07T10:00", "2025-04-07T11:00",
-        controller.getEventsBetween("2025-04-07T10:00", "2025-04-07T11:00"));
+    String output =
+        CalendarView.formatEventsBetween(
+            "2025-04-07T10:00",
+            "2025-04-07T11:00",
+            controller.getEventsBetween("2025-04-07T10:00", "2025-04-07T11:00"));
     assertEquals("No events between 2025-04-07T10:00 and 2025-04-07T11:00", output);
   }
 
@@ -404,7 +410,9 @@ public class CalendarAppTest {
   /** Tests CommandProcessor edit calendar command. */
   @Test
   public void testEditCalendarCommand() throws Exception {
-    Command command = CommandFactory.process("create calendar --name TestCal --timezone America/New_York", controller);
+    Command command =
+        CommandFactory.process(
+            "create calendar --name TestCal --timezone America/New_York", controller);
     command.execute();
     String editCmd = "edit calendar --name TestCal --property timezone Europe/Paris";
     command = CommandFactory.process(editCmd, controller);
@@ -415,7 +423,8 @@ public class CalendarAppTest {
   /** Tests CommandProcessor use calendar command. */
   @Test
   public void testUseCalendarCommand() throws Exception {
-    Command command = CommandFactory.process("create calendar --name NewCal --timezone Asia/Kolkata", controller);
+    Command command =
+        CommandFactory.process("create calendar --name NewCal --timezone Asia/Kolkata", controller);
     command.execute();
     String useCmd = "use calendar --name NewCal";
     command = CommandFactory.process(useCmd, controller);
@@ -426,11 +435,17 @@ public class CalendarAppTest {
   /** Tests CommandProcessor copy a single event command. */
   @Test
   public void testCopyEventCommand() throws Exception {
-    Command command = CommandFactory.process("create event CopyTest from 2025-05-09T10:00 to 2025-05-09T11:00 --autodecline", controller);
+    Command command =
+        CommandFactory.process(
+            "create event CopyTest from 2025-05-09T10:00 to 2025-05-09T11:00 --autodecline",
+            controller);
     command.execute();
-    command = CommandFactory.process("create calendar --name TargetCal --timezone Europe/London", controller);
+    command =
+        CommandFactory.process(
+            "create calendar --name TargetCal --timezone Europe/London", controller);
     command.execute();
-    String copyCmd = "copy event CopyTest on 2025-05-09T10:00 --target TargetCal to 2025-05-10T10:00";
+    String copyCmd =
+        "copy event CopyTest on 2025-05-09T10:00 --target TargetCal to 2025-05-10T10:00";
     command = CommandFactory.process(copyCmd, controller);
     String result = command.execute();
     assertTrue(result.contains("Event CopyTest copied to calendar TargetCal"));
@@ -439,9 +454,12 @@ public class CalendarAppTest {
   /** Tests CommandProcessor copy events on a specific day command. */
   @Test
   public void testCopyEventsOnCommand() throws Exception {
-    Command command = CommandFactory.process("create event DayEvent on 2025-05-10 --autodecline", controller);
+    Command command =
+        CommandFactory.process("create event DayEvent on 2025-05-10 --autodecline", controller);
     command.execute();
-    command = CommandFactory.process("create calendar --name TargetCal2 --timezone Europe/London", controller);
+    command =
+        CommandFactory.process(
+            "create calendar --name TargetCal2 --timezone Europe/London", controller);
     command.execute();
     String copyCmd = "copy events on 2025-05-10 --target TargetCal2 to 2025-05-11T00:00";
     command = CommandFactory.process(copyCmd, controller);
@@ -452,13 +470,22 @@ public class CalendarAppTest {
   /** Tests CommandProcessor copy events between two dates command. */
   @Test
   public void testCopyEventsBetweenCommand() throws Exception {
-    Command command = CommandFactory.process("create event IntervalEvent1 from 2025-05-12T09:00 to 2025-05-12T10:00 --autodecline", controller);
+    Command command =
+        CommandFactory.process(
+            "create event IntervalEvent1 from 2025-05-12T09:00 to 2025-05-12T10:00 --autodecline",
+            controller);
     command.execute();
-    command = CommandFactory.process("create event IntervalEvent2 from 2025-05-12T11:00 to 2025-05-12T12:00 --autodecline", controller);
+    command =
+        CommandFactory.process(
+            "create event IntervalEvent2 from 2025-05-12T11:00 to 2025-05-12T12:00 --autodecline",
+            controller);
     command.execute();
-    command = CommandFactory.process("create calendar --name TargetCal3 --timezone Asia/Tokyo", controller);
+    command =
+        CommandFactory.process(
+            "create calendar --name TargetCal3 --timezone Asia/Tokyo", controller);
     command.execute();
-    String copyCmd = "copy events between 2025-05-12 and 2025-05-12 --target TargetCal3 to 2025-05-13";
+    String copyCmd =
+        "copy events between 2025-05-12 and 2025-05-12 --target TargetCal3 to 2025-05-13";
     command = CommandFactory.process(copyCmd, controller);
     String result = command.execute();
     assertTrue(result.contains("copied"));

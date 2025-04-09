@@ -38,7 +38,9 @@ public class CSVCalendarImporter implements CalendarImporter {
           continue;
         }
         String[] tokens = line.split(",");
-        if (tokens.length < 9) continue;
+        if (tokens.length < 9) {
+          continue;
+        }
 
         // Remove quotes
         String subject = tokens[0].replace("\"", "");

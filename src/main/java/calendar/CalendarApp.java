@@ -14,6 +14,7 @@ import java.time.ZoneId;
  * --mode interactive : Runs in interactive text mode. (no arguments) : Launches the GUI.
  */
 public class CalendarApp {
+  /** Main method to start the application. */
   public static void main(String[] args) {
     // Create a default calendar using the system default timezone.
     Calendar defaultCalendar = new Calendar("Default Calendar", ZoneId.systemDefault());

@@ -1,13 +1,18 @@
 package calendar.view.dialog;
 
 import calendar.controller.CalendarController;
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
-/**
- * A dialog for selecting an existing calendar.
- */
+/** A dialog for selecting an existing calendar. */
 public class SelectCalendarDialog extends JDialog {
   /**
    * Constructs the SelectCalendarDialog.
@@ -45,17 +50,18 @@ public class SelectCalendarDialog extends JDialog {
       add(mainPanel);
 
       // Action for OK button: switch to the selected calendar.
-      okButton.addActionListener((ActionEvent e) -> {
-        String selectedCal = (String) calendarCombo.getSelectedItem();
-        try {
-          controller.useCalendar(selectedCal);
-          JOptionPane.showMessageDialog(this, "Switched to calendar: " + selectedCal);
-          dispose();
-        } catch (Exception ex) {
-          JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(),
-              "Error", JOptionPane.ERROR_MESSAGE);
-        }
-      });
+      okButton.addActionListener(
+          (ActionEvent e) -> {
+            String selectedCal = (String) calendarCombo.getSelectedItem();
+            try {
+              controller.useCalendar(selectedCal);
+              JOptionPane.showMessageDialog(this, "Switched to calendar: " + selectedCal);
+              dispose();
+            } catch (Exception ex) {
+              JOptionPane.showMessageDialog(
+                  this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+          });
 
       // Cancel button closes the dialog.
       cancelButton.addActionListener((ActionEvent e) -> dispose());

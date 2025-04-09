@@ -12,15 +12,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 /**
- * A side panel for the calendar GUI that displays events for the selected day and
- * includes a button for creating new events.
+ * A side panel for the calendar GUI that displays events for the selected day and includes a button
+ * for creating new events.
  */
 public class CalendarSidePanel extends JPanel {
 
-  private JTextArea eventTextArea;
-  private JButton addEventButton;
   private final CalendarGUI parent;
   private final CalendarController controller;
+  private JTextArea eventTextArea;
 
   /**
    * Constructs a CalendarSidePanel.
@@ -34,9 +33,7 @@ public class CalendarSidePanel extends JPanel {
     initSidePanel();
   }
 
-  /**
-   * Initializes the side panel components.
-   */
+  /** Initializes the side panel components. */
   private void initSidePanel() {
     setLayout(new BorderLayout());
     eventTextArea = new JTextArea();
@@ -44,12 +41,13 @@ public class CalendarSidePanel extends JPanel {
     JScrollPane eventScrollPane = new JScrollPane(eventTextArea);
     eventScrollPane.setPreferredSize(new Dimension(300, 600));
 
-    addEventButton = new JButton("Add Event");
-    addEventButton.addActionListener((ActionEvent e) -> {
-      LocalDate dateForEvent = parent.getCurrentSelectedDateOrDefault();
-      new CreateEventDialog(parent, controller, dateForEvent).setVisible(true);
-      parent.refreshView();
-    });
+    JButton addEventButton = new JButton("Add Event");
+    addEventButton.addActionListener(
+        (ActionEvent e) -> {
+          LocalDate dateForEvent = parent.getCurrentSelectedDateOrDefault();
+          new CreateEventDialog(parent, controller, dateForEvent).setVisible(true);
+          parent.refreshView();
+        });
 
     JPanel buttonPanel = new JPanel();
     buttonPanel.add(addEventButton);

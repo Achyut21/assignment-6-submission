@@ -13,6 +13,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
+/**
+ * A panel that displays the days of the current month in a grid.
+ * Days that have events are colored in lavender.
+ */
 public class CalendarMonthPanel extends JPanel {
 
   private final Color lavender = new Color(230, 230, 250);
@@ -20,20 +24,35 @@ public class CalendarMonthPanel extends JPanel {
   private final CalendarController controller;
   private DaySelectedListener daySelectedListener;
 
+  /**
+   * Constructs a CalendarMonthPanel.
+   *
+   * @param controller the CalendarController used to obtain event data
+   */
   public CalendarMonthPanel(CalendarController controller) {
     super(new GridLayout(0, 7));
     this.controller = controller;
   }
 
+  /**
+   * Sets the listener to be notified when a day is selected.
+   *
+   * @param listener the listener to notify
+   */
   public void setDaySelectedListener(DaySelectedListener listener) {
     this.daySelectedListener = listener;
   }
 
+  /**
+   * Draws the month view for the provided date.
+   *
+   * @param currentDate the date representing the current month to display
+   */
   public void drawMonth(LocalDate currentDate) {
     this.currentDate = currentDate;
     removeAll();
 
-    // Create headers
+    // Create day-of-week headers.
     String[] headers = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
     for (String header : headers) {
       JLabel headerLabel = new JLabel(header, JLabel.CENTER);
@@ -44,9 +63,12 @@ public class CalendarMonthPanel extends JPanel {
     int firstDayValue = firstOfMonth.getDayOfWeek().getValue();
     int startIndex = firstDayValue % 7;
     int daysInMonth = currentDate.lengthOfMonth();
+
+    // Fill empty cells before the first day.
     for (int i = 0; i < startIndex; i++) {
       add(new JLabel(""));
     }
+    // Create day buttons.
     for (int day = 1; day <= daysInMonth; day++) {
       JButton dayButton = new JButton(String.valueOf(day));
       dayButton.setOpaque(true);
@@ -62,19 +84,26 @@ public class CalendarMonthPanel extends JPanel {
       } catch (Exception ex) {
         dayButton.setBackground(lavender);
       }
-      dayButton.addActionListener(
-          (ActionEvent e) -> {
-            if (daySelectedListener != null) {
-              daySelectedListener.onDaySelected(date);
-            }
-          });
+      dayButton.addActionListener((ActionEvent e) -> {
+        if (daySelectedListener != null) {
+          daySelectedListener.onDaySelected(date);
+        }
+      });
       add(dayButton);
     }
     revalidate();
     repaint();
   }
 
+  /**
+   * Listener interface for when a day is selected.
+   */
   public interface DaySelectedListener {
+    /**
+     * Called when a day is selected from the month view.
+     *
+     * @param date the selected date
+     */
     void onDaySelected(LocalDate date);
   }
 }

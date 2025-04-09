@@ -3,11 +3,13 @@ package calendar.view.dialog;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.time.LocalDate;
-
 import javax.swing.*;
-
 import calendar.controller.CalendarController;
 
+/**
+ * Dialog for creating a new event. This dialog allows the user to create a single event or a
+ * recurring event by specifying necessary details.
+ */
 public class CreateEventDialog extends JDialog {
   private JTextField nameField;
   private JTextField dateField;
@@ -24,6 +26,13 @@ public class CreateEventDialog extends JDialog {
   private final CalendarController controller;
   private final LocalDate defaultDate;
 
+  /**
+   * Constructs the CreateEventDialog.
+   *
+   * @param parent the parent frame for this dialog
+   * @param controller the CalendarController to handle event creation
+   * @param defaultDate the default date to prefill the date field
+   */
   public CreateEventDialog(JFrame parent, CalendarController controller, LocalDate defaultDate) {
     super(parent, "Create Event", true);
     this.controller = controller;
@@ -31,6 +40,9 @@ public class CreateEventDialog extends JDialog {
     initComponents();
   }
 
+  /**
+   * Initializes the dialog components and layout.
+   */
   private void initComponents() {
     nameField = new JTextField(20);
     dateField = new JTextField(10);

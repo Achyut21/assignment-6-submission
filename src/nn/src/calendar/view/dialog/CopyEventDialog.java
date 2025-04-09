@@ -5,6 +5,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
+/**
+ * A dialog that provides functionality for copying events.
+ */
 public class CopyEventDialog extends JDialog {
   private JTabbedPane tabbedPane;
   private JPanel singlePanel;
@@ -12,12 +15,21 @@ public class CopyEventDialog extends JDialog {
   private JPanel betweenPanel;
   private final CalendarController controller;
 
+  /**
+   * Constructs the CopyEventDialog.
+   *
+   * @param parent the parent frame for this dialog
+   * @param controller the CalendarController to handle copy operations
+   */
   public CopyEventDialog(JFrame parent, CalendarController controller) {
     super(parent, "Copy Event", true);
     this.controller = controller;
     initComponents();
   }
 
+  /**
+   * Initializes the dialog components and layout.
+   */
   private void initComponents() {
     tabbedPane = new JTabbedPane();
 
@@ -38,7 +50,11 @@ public class CopyEventDialog extends JDialog {
     setLocationRelativeTo(getParent());
   }
 
-  // Tab 1: Copy a single event
+  /**
+   * Creates the panel for copying a single event.
+   *
+   * @return the constructed JPanel for the single event tab
+   */
   private JPanel createSingleEventPanel() {
     JPanel panel = new JPanel(new GridLayout(0, 2, 5, 5));
     JTextField nameField = new JTextField(20);
@@ -81,7 +97,11 @@ public class CopyEventDialog extends JDialog {
     return panel;
   }
 
-  // Tab 2: Copy all events on a specific date
+  /**
+   * Creates the panel for copying all events on a specific date.
+   *
+   * @return the constructed JPanel for the "Events On Date" tab
+   */
   private JPanel createEventsOnPanel() {
     JPanel panel = new JPanel(new GridLayout(0, 2, 5, 5));
     JTextField dateField = new JTextField(10);
@@ -120,7 +140,11 @@ public class CopyEventDialog extends JDialog {
     return panel;
   }
 
-  // Tab 3: Copy events between two dates
+  /**
+   * Creates the panel for copying events between two dates.
+   *
+   * @return the constructed JPanel for the "Events Between Dates" tab
+   */
   private JPanel createEventsBetweenPanel() {
     JPanel panel = new JPanel(new GridLayout(0, 2, 5, 5));
     JTextField startDateField = new JTextField(10);

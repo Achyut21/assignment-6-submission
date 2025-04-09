@@ -8,8 +8,22 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Imports calendar events from a CSV file into a Calendar.
+ *
+ * <p>This importer reads CSV files with dates formatted as "MM/dd/yyyy". The first line is assumed
+ * to be a header and is skipped. Each subsequent line should contain at least 9 values.
+ */
 public class CSVCalendarImporter implements CalendarImporter {
 
+  /**
+   * Imports events from the specified CSV file into the provided Calendar.
+   *
+   * @param calendar the Calendar into which events should be imported
+   * @param fileName the path to the CSV file to import events from
+   * @return the number of events successfully imported
+   * @throws Exception if an error occurs during file reading or event processing
+   */
   @Override
   public int importCalendar(Calendar calendar, String fileName) throws Exception {
     // The CSV export writes dates in "MM/dd/yyyy" format.
@@ -50,7 +64,7 @@ public class CSVCalendarImporter implements CalendarImporter {
         LocalDateTime startDateTime = LocalDateTime.parse(startDateTimeStr);
         LocalDateTime endDateTime = LocalDateTime.parse(endDateTimeStr);
 
-        // Create the event
+        // Create the event.
         SingleEvent event =
             new SingleEvent(subject, startDateTime, endDateTime, description, location, true);
         calendar.addEvent(event, false);

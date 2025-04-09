@@ -1,8 +1,6 @@
 package calendar.view.handler;
 
-/**
- * Interface defining methods for handling user interface input and output.
- */
+/** Interface defining methods for handling user interface input and output. */
 public interface UIHandler {
   /**
    * Retrieves input from the user.

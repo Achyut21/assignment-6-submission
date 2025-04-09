@@ -5,18 +5,30 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
-public class EditCalendarDialog  extends JDialog {
+/**
+ * A dialog for editing the current calendar's timezone.
+ */
+public class EditCalendarDialog extends JDialog {
   private JTextField timezoneField;
   private JButton saveButton;
   private JButton cancelButton;
   private final CalendarController controller;
 
+  /**
+   * Constructs the EditCalendarDialog.
+   *
+   * @param parent the parent frame
+   * @param controller the CalendarController to perform the edit
+   */
   public EditCalendarDialog(JFrame parent, CalendarController controller) {
     super(parent, "Edit Calendar Timezone", true);
     this.controller = controller;
     initComponents();
   }
 
+  /**
+   * Initializes the components and layout for the dialog.
+   */
   private void initComponents() {
     timezoneField = new JTextField(20);
     saveButton = new JButton("Save");
