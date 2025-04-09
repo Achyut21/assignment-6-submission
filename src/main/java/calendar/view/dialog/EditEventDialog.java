@@ -5,22 +5,34 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
-public class EditEventDialog  extends JDialog {
+/**
+ * A dialog for editing an event's property (such as name, description, location, or visibility).
+ */
+public class EditEventDialog extends JDialog {
   private JTextField nameField;
-  private JTextField startField; // expects yyyy-MM-dd'T'HH:mm
-  private JTextField endField;   // expects yyyy-MM-dd'T'HH:mm
+  private JTextField startField;   // expects yyyy-MM-dd'T'HH:mm format
+  private JTextField endField;     // expects yyyy-MM-dd'T'HH:mm format
   private JTextField propertyField;
   private JTextField newValueField;
   private JButton saveButton;
   private JButton cancelButton;
   private final CalendarController controller;
 
+  /**
+   * Constructs the EditEventDialog.
+   *
+   * @param parent the parent frame
+   * @param controller the CalendarController to process the event edit
+   */
   public EditEventDialog(JFrame parent, CalendarController controller) {
     super(parent, "Edit Event", true);
     this.controller = controller;
     initComponents();
   }
 
+  /**
+   * Initializes the dialog components and layout.
+   */
   private void initComponents() {
     nameField = new JTextField(20);
     startField = new JTextField(15);

@@ -5,7 +5,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
+/**
+ * A dialog for selecting an existing calendar.
+ */
 public class SelectCalendarDialog extends JDialog {
+  /**
+   * Constructs the SelectCalendarDialog.
+   *
+   * @param parent the parent frame
+   * @param controller the CalendarController to retrieve and switch calendars
+   */
   public SelectCalendarDialog(JFrame parent, CalendarController controller) {
     super(parent, "Select Calendar", true);
     java.util.Set<String> calNames = controller.getCalendarNames();
@@ -44,7 +53,7 @@ public class SelectCalendarDialog extends JDialog {
           dispose();
         } catch (Exception ex) {
           JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(),
-                  "Error", JOptionPane.ERROR_MESSAGE);
+              "Error", JOptionPane.ERROR_MESSAGE);
         }
       });
 
@@ -55,4 +64,3 @@ public class SelectCalendarDialog extends JDialog {
     setLocationRelativeTo(getParent());
   }
 }
-

@@ -108,10 +108,8 @@ public class CalendarGUI extends JFrame {
     if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
       String path = chooser.getSelectedFile().getAbsolutePath();
       try {
-        // Call controller's import method.
         int count = controller.importCalendar(path);
         JOptionPane.showMessageDialog(this, "Import successful. " + count + " events imported.");
-        // Redraw the month panel since events have changed.
         monthPanel.drawMonth(currentDate);
       } catch (Exception ex) {
         JOptionPane.showMessageDialog(
