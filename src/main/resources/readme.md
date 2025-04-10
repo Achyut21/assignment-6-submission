@@ -1,122 +1,131 @@
-# Calendar Application - Documentation
+# Calendar Application - Assignment 6
 
 ## Overview
 
-This application is a command line based calendar system capable of creating and editing events,
-querying events by date, and exporting them to CSV. It supports both **interactive** and **headless
-** modes, handling user commands to manage and organize calendar events.
+This is Assignment 6 of the Calendar Application project. In this iteration, a graphical user interface (GUI) has been implemented using Java Swing. The application now supports three different modes:
+
+- **GUI Mode (Default):** Launches a rich, interactive calendar GUI.
+- **Interactive Mode:** Provides a command-line interface for manual command entry.
+- **Headless Mode:** Reads commands from a script file and processes them in batch mode.
+
+The system supports creating single and recurring events (both timed and all-day), editing events, copying events between calendars, importing events from CSV files, and exporting calendars to CSV format. Multiple calendars with timezone support are also included.
+
+## How to Run
+
+### Requirements
+- The application is packaged as an executable JAR file (`CalendarApp.jar`).
+
+### Running in Different Modes
+
+#### 1. GUI Mode (Default)
+To launch the application with its graphical user interface, simply run:
+```bash
+java -jar CalendarApp.jar
+```
+
+This will open the GUI which allows you to:
+- View the current month and navigate between months.
+- See which days have events (highlighted in lavender).
+- Add new events by clicking the "Add Event" button in the event panel.
+- Edit and copy events via dedicated dialogs.
+- Switch between multiple calendars and view the current calendar name.
+- Import events from and export events to CSV files.
+
+#### 2. Interactive Mode
+To run the application in interactive text mode, use the following command:
+```bash
+java -jar CalendarApp.jar --mode interactive
+```
+
+In this mode, you will be prompted to enter commands directly in the console. Use the command formats defined in the documentation (for example, create event, edit event, etc.). Type `exit` to quit interactive mode.
+
+#### 3. Headless Mode
+To run the application in headless mode (scripting mode), use:
+```bash
+java -jar CalendarApp.jar --mode headless path/to/script.txt
+```
+
+Replace `path/to/script.txt` with the path to your script file containing calendar commands. Each line in the file will be processed as a command by the application.
+
+## CSV Import/Export
+
+### Exporting:
+The calendar can be exported to a CSV file (compatible with Google Calendar). You can use the "Export CSV" option from the File menu in the GUI or run the command `export cal <filename>` in interactive/headless mode.
+
+### Importing:
+Import events from a CSV file using the "Import CSV" option in the GUI. The CSV file must follow the format produced by the export function.
 
 ## Code Flow
 
-1. **CalendarApp (Main Entry Point)**
-    - Instantiates the core `CalendarController`.
-    - Invokes `modeFactory.getMode()` to select the appropriate mode.
-    - Calls `mode.execute()` to begin program execution
+### Main Entry Point (CalendarApp.java)
+- **Initialization**: The application starts in the main method of CalendarApp.java. It creates a default calendar using the system's default timezone and initializes a CalendarController with that calendar.
+- **Mode Selection**:
+    - If no command-line arguments are provided, the GUI mode is launched on the Swing Event Dispatch Thread (EDT) via the CalendarGUI class.
+    - If at least two arguments are provided (e.g., --mode headless or --mode interactive), a ModeFactory is used to choose the appropriate mode.
+    - In case of invalid arguments, an error is printed and the application exits.
 
-2. **ModeFactory**
-    - `getMode` parses a string and returns an implementation of the `Mode` interface
+### Modes (Headless and Interactive)
+- **Headless Mode**: Implemented in HeadlessMode.java, this mode reads commands from a specified script file. For each non-empty line, it displays the command being processed, uses the CommandFactory to parse and generate a concrete Command implementation, executes the command, and shows the output.
+- **Interactive Mode**: Implemented in InteractiveMode.java, this mode runs in a continuous loop, prompting the user to enter commands. It reads each command via a ConsoleUIHandler, translates input into a Command, executes it, and outputs the result.
 
-3. **CalendarController**
-    - Maintains a reference to the core `Calendar` model.
-    - Provides methods for:
-        - Creating single or recurring events (timed or all-day).
-        - Editing existing events (single or multiple).
-        - Querying events (on a date, between dates, or checking busy status).
-        - Exporting events to CSV.
-    - Interprets the user's chosen mode (interactive or headless) and delegates to the appropriate
-      processing method (`processInteractive` or `processHeadless`).
+### Graphical User Interface (CalendarGUI)
+- **Layout**: The GUI window is divided into different panels:
+    - Top Panel: Displays the current calendar name and month with navigation buttons.
+    - Month Panel: Presents a grid view of the month where days with events are highlighted in lavender.
+    - Side Panel: Shows event details for the selected day and includes an "Add Event" button.
+    - Menu Bar: Provides options for file operations, calendar management, and event operations.
+- **Refreshing the View**: After operations like creating an event or changing the calendar, the view is redrawn to update the month panel and the current calendar name.
 
-4. **CommandFactory**
-    - Is responsible for parsing an input string and returning and implementation of the `Command`
-      interface
-    - The returned `Command` implementation and execute the command by calling `Command.execute()`
+### Controller (CalendarController)
+- **Event Management**: Handles all calendar operations including creating, editing, and copying events.
+- **Calendar Management**: Interacts with the CalendarManager to maintain multiple calendars and support timezone operations.
+- **Import Functionality**: Calls the importer to handle CSV import functionality.
 
-5. **Model Classes**
-    - **Calendar**:
-        - Stores and manages `Event` objects (e.g. conflict checks, add/edit methods, CSV export).
-    - **Event** (interface):
-        - Basic event behaviors (getters for name, time, location, etc.).
-    - **AbstractCalendarEvent**:
-        - Shared fields (name, start/end times, description, location, and public flag).
-    - **SingleEvent**:
-        - A single, non-recurring event.
-    - **RecurringEvent**:
-        - Generates multiple instances (`SingleEvent`) based on specified weekdays and either an
-          occurrence count or an until date/time.
+### Importer (CSVCalendarImporter)
+- **CSV Parsing**: Provides functionality to read a CSV file and import events into a given calendar.
+- **Return Value**: Returns the total count of events imported.
 
-6. **Exceptions**
-    - **InvalidCommandException**: Thrown when an unrecognized or invalid command is encountered.
-    - **InvalidTokenException**: Thrown when a required token (like `to`) is missing.
-    - **MissingParameterException**: Thrown when a required parameter is absent (e.g., event name,
-      date/time).
+### Command Pattern (Command & CommandFactory)
+- **Command Processing**: User inputs are processed using the CommandFactory, which translates the input string into a concrete Command implementation.
+- **Execution**: Once created, the command's execute() method is invoked, which calls the appropriate methods on the CalendarController.
 
-## Input Command Workflow
+### View Components (CalendarView and ErrorView)
+- **Formatting**: CalendarView formats event details into human-readable strings.
+- **Error Display**: ErrorView displays error messages in headless and interactive modes.
 
-### Interactive Mode
+## Additional Information
 
-1. **Startup Prompt**  
-   The application asks which mode to use:
-    - **1** = Interactive
-    - **2** = Headless
-    - **3** = Exit
+### Error Handling:
+Errors are handled gracefully. In the GUI, error messages are shown in dialog boxes, while in interactive or headless modes, errors are printed to the console.
 
-2. **If Interactive**
-    - Prompts the user to enter commands (e.g.,
-      `create event Meeting from 2025-04-01T10:00 to 2025-04-01T11:00 --autodecline`).
-    - Reads each command line, then calls `CommandFactory` to parse and the string and return an
-      implementation of the `Command` interface
-    - The returned command is executed by calling the `.execute()`
-    - This method then calls the appropriate `CalendarController` method(s).
-    - Print or display results (e.g., event creation success messages or listing events).
-    - Type `exit` to end the interactive session and return to the main mode prompt.
+### MVC Architecture:
+The project follows an MVC architecture with a clear separation between the model, view, and controller layers.
 
-### Headless Mode
+### Calendar Persistence:
+When switching between calendars, events are retained within each calendar instance.
 
-1. **Startup Prompt**
-    - **2** = Headless
-    - The application asks for a file path containing commands.
+## Key Changes from Assignment 5 to Assignment 6
 
-2. **File-based Commands**
-    - Each line in the file is processed sequentially, sending each line to the `CommandFactory`.
-    - The `CommandFactory` returns an implementation of the `Command` class
-    - This `Command` then executes the command through the `.execute()` method
-    - The final `exit` command stops execution.
+* **Graphical User Interface (GUI) Implementation:**
+    * **New GUI Framework:** The entire front end now uses Java Swing. A new class (CalendarGUI) has been added to provide a graphical month view of the calendar.
+    * **Visual Enhancements:**
+        * The month view now colors dates that have events in a lavender background.
+        * Added navigation buttons (next/previous month) and a dedicated "Add Event" button below the event display area.
+        * The current calendar name is now displayed prominently at the top of the GUI.
+    * **Dialog Windows:** A set of dialog classes (e.g., NewCalendarDialog, CreateEventDialog, EditEventDialog, SelectCalendarDialog, and an enhanced CopyEventDialog with multiple tabs) have been introduced to handle user interactions for creating, editing, and copying events, as well as for managing calendars.
 
-### Common Commands Examples
+* **Separation of Import Functionality:**
+    * Whereas export functionality was already handled by the `CSVCalendarExporter`, import functionality is now shifted to its own package (`calendar.controller.importer`). A new class (`CSVCalendarImporter`) implements a `CalendarImporter` interface. This decouples the import logic from the GUI so that the GUI simply calls a controller method to import calendar data from a CSV file.
 
-- **Create Single Timed Event**  
-  `create event Meeting from 2025-04-01T10:00 to 2025-04-01T11:00 --autodecline`
-- **Create Single All-Day Event**  
-  `create event Vacation on 2025-04-10`
-- **Edit Single Event**  
-  `edit event description Meeting from 2025-04-01T10:00 to 2025-04-01T11:00 with UpdatedDesc`
-- **Print Events on a Date**  
-  `print events on 2025-04-01`
-- **Show Busy Status**  
-  `show status on 2025-04-01T10:30`
-- **Export to CSV**  
-  `export cal my_calendar.csv`
+* **MVC Refinements:**
+    * **Enhanced Controller & View Interaction:**
+        * The controller now provides methods to retrieve the current calendar name (e.g., `getCurrentCalendarName`) so that the GUI displays this information dynamically.
+        * The GUI calls controller methods to refresh its view after any event creation or calendar change.
+    * **Improved Error Handling:**
+        * Errors during operations (e.g., during CSV import/export or event processing) are now handled more gracefully in the GUI by displaying dialog messages, while headless/interactive modes use the ConsoleUIHandler and ErrorView.
 
-# Key Changes from Assignment 4 to Assignment 5
-
-- **Multiple Calendars Support:** Introduced a new `CalendarManager` class to manage multiple
-  calendars and ensure each calendar has a unique name.
-- **Timezone Support:** Added timezone support to calendars (with getters, setters, and edit
-  methods) so that each calendar is associated with an IANA timezone.
-- **Enhanced Command Set:** Extended the command set to include commands for creating, editing, and
-  using calendars, plus new copy commands for transferring events across calendars.
-- **Refactored Export Functionality:** Moved the CSV export functionality from the `Calendar` class
-  into its own `CSVCalendarExporter` class that implements the `CalendarExporter` interface for
-  future extensibility.
-- **Default Conflict Behavior:** Changed event creation to always decline new events if a conflict
-  exists, thereby making conflict declination the default behavior.
-- **Improved Recurring Event Editing:** Modified the logic for editing recurring events so that
-  the "edit events from" command now applies to all events starting at or after a specified time.
-- **Copy Commands Added:** Implemented commands to copy a single event and groups of events (by day
-  or over an interval) from one calendar to another with appropriate time adjustments.
-- **Controller & Command Refactoring:** Refactored the controller and command processing to use
-  concrete command classes (e.g., `CreateCommand`, `EditCommand`, `CopyCommand`, etc.) for better
-  separation of concerns under the MVC architecture.
+* **Mode Support Retained:**
+    * The command-line based modes (headless and interactive) remain available, chosen via command-line parameters. The ModeFactory was updated to now require one argument (a string array) when selecting a mode.
 
 ### Distribution of Work
 
